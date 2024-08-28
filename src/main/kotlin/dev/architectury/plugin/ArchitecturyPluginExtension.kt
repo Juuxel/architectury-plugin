@@ -32,7 +32,7 @@ import java.util.jar.JarOutputStream
 import java.util.jar.Manifest
 
 open class ArchitectPluginExtension(val project: Project) {
-    var transformerVersion = "5.2.81"
+    var transformerVersion = "5.2.87"
     var injectablesVersion = "1.0.10"
     var minecraft = ""
     private var compileOnly = false
@@ -111,7 +111,9 @@ open class ArchitectPluginExtension(val project: Project) {
         )
 
         if (platform != "neoforge") {
-            if (loom.legacyMixinApEnabled) {
+            if (platform == "forge" && !loom.addRefmapForForge) {
+                map[BuiltinProperties.FORGE_FIX_MIXINS] = "false"
+            } else if (loom.legacyMixinApEnabled) {
                 map[BuiltinProperties.REFMAP_NAME] = loom.refmapName
             }
 
